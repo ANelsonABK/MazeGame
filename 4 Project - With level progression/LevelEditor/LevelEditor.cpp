@@ -34,6 +34,7 @@ bool EditLevel(char* pLevel, int& cursorX, int& cursorY, int width, int height);
 void SaveLevel(char* pLevel, int width, int height);
 void DisplayLegend();
 void RunEditor(char* pLevel, int width, int height);
+void ClearScreen();
 
 int main()
 {
@@ -125,13 +126,15 @@ void RunEditor(char* pLevel, int width, int height)
 	bool doneEditing = false;
 	while (!doneEditing)
 	{
-		system("cls");
+		//system("cls");
+		ClearScreen();
 		DisplayLevel(pLevel, width, height, cursorX, cursorY);
 		DisplayLegend();
 		doneEditing = EditLevel(pLevel, cursorX, cursorY, width, height);
 	}
 
-	system("cls");
+	//system("cls");
+	ClearScreen();
 	DisplayLevel(pLevel, width, height, -1, -1);
 
 	SaveLevel(pLevel, width, height);
@@ -149,6 +152,7 @@ void DisplayLegend()
 	cout << "v for vertical moving enemy" << endl;
 	cout << "h for horizontal moving enemy" << endl;
 	cout << "e for non-moving enemy" << endl;
+	cout << "c for chest" << endl;
 	cout << "X for end" << endl;
 }
 
@@ -301,4 +305,12 @@ void DisplayRightBorder()
 int GetIndexFromXY(int x, int y, int width)
 {
 	return x + y * width;
+}
+
+void ClearScreen()
+{
+	COORD cursorPosition;
+	cursorPosition.X = 0;
+	cursorPosition.Y = 0;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
 }

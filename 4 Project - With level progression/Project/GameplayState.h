@@ -36,4 +36,5 @@ private:
 	void HandleCollision(int newPlayerX, int newPlayerY);
 	bool Load();
 	void DrawHUD(const HANDLE& console);
+	void ClearScreen();
 };

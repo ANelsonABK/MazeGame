@@ -107,4 +107,12 @@ public:
 		Beep(1397, 200);
 		Beep(1175, 1000);
 	}
+
+	void PlayOpenChestSound()
+	{
+		if (!m_SoundOn)
+			return;
+
+		// TODO: add beeps for opening chest
+	}
 };

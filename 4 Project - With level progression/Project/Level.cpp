@@ -9,6 +9,7 @@
 #include "Door.h"
 #include "Goal.h"
 #include "Money.h"
+#include "Chest.h"
 
 using namespace std;
 
@@ -159,6 +160,10 @@ bool Level::ConvertLevel(int* playerX, int* playerY)
 				m_pLevelData[index] = ' ';
 				m_pActors.push_back(new Money(x, y, 1 + rand() % 5));
 				break;
+			case 'c':
+				m_pLevelData[index] = ' ';
+				m_pActors.push_back(new Chest(x, y, Money(x, y + 1, 1 + rand() % 5)));
+				break;
 			case '@':
 				m_pLevelData[index] = ' ';
 				if (playerX != nullptr && playerY != nullptr)
@@ -179,7 +184,6 @@ bool Level::ConvertLevel(int* playerX, int* playerY)
 				m_pLevelData[index] = ' ';
 				m_pActors.push_back(new Enemy(x, y, 0, 2));
 				m_pLevelData[index] = ' '; // clear the level
-				break;
 				break;
 			case ' ':
 				break;

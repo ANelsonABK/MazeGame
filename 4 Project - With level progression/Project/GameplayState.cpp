@@ -13,6 +13,7 @@
 #include "AudioManager.h"
 #include "Utility.h"
 #include "StateMachineExampleGame.h"
+#include "Chest.h"
 
 using namespace std;
 
@@ -30,9 +31,10 @@ GameplayState::GameplayState(StateMachineExampleGame* pOwner)
 	, m_currentLevel(0)
 	, m_pLevel(nullptr)
 {
-	m_LevelNames.push_back("Level1.txt");
-	m_LevelNames.push_back("Level2.txt");
-	m_LevelNames.push_back("Level3.txt");
+	//m_LevelNames.push_back("Level1.txt");
+	//m_LevelNames.push_back("Level2.txt");
+	//m_LevelNames.push_back("Level3.txt");
+	m_LevelNames.push_back("Level4.txt");
 }
 
 GameplayState::~GameplayState()
@@ -223,6 +225,20 @@ void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 			m_beatLevel = true;
 			break;
 		}
+		case ActorType::Chest:
+		{
+			Chest* collidedChest = dynamic_cast<Chest*>(collidedActor);
+			assert(collidedChest);
+			collidedChest->SetChestState();
+			m_player.SetPosition(newPlayerX, newPlayerY);
+
+			if (collidedChest->GetChestState() == ChestState::Closed)
+			{
+				collidedChest->Remove();
+				AudioManager::GetInstance()->PlayOpenChestSound();
+			}
+			break;
+		}
 		default:
 			break;
 		}
@@ -240,7 +256,8 @@ void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 void GameplayState::Draw()
 {
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-	system("cls");
+	//system("cls");
+	ClearScreen();
 
 	m_pLevel->Draw();
 
@@ -306,4 +323,12 @@ void GameplayState::DrawHUD(const HANDLE& console)
 		cout << Level::WAL;
 	}
 	cout << endl;
+}
+
+void GameplayState::ClearScreen()
+{
+	COORD cursorPosition;
+	cursorPosition.X = 0;
+	cursorPosition.Y = 0;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
 }
