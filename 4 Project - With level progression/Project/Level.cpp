@@ -162,7 +162,8 @@ bool Level::ConvertLevel(int* playerX, int* playerY)
 				break;
 			case 'c':
 				m_pLevelData[index] = ' ';
-				m_pActors.push_back(new Chest(x, y, Money(x, y + 1, 1 + rand() % 5)));
+				// TODO: fix issue where money doesn't get added to total
+				m_pActors.push_back(new Chest(x, y, new Money(x, y + 1, 1 + rand() % 5)));
 				break;
 			case '@':
 				m_pLevelData[index] = ' ';

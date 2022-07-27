@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include "Chest.h"
 
-Chest::Chest(int x, int y, Money money)
+Chest::Chest(int x, int y, Money* money)
 	: PlacableActor(x, y)
 	, m_money(money)
 	, m_chestState(ChestState::Closed)
@@ -39,7 +39,7 @@ void Chest::Draw()
 	else if (m_chestState == ChestState::Open)
 	{
 		SetConsoleTextAttribute(console, (int)ActorColor::Regular);
-		m_money.Draw();
+		m_money->Draw();
 		SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_GREEN);
 		std::cout << (char)223;
 	}
