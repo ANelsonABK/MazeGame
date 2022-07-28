@@ -162,7 +162,7 @@ bool Level::ConvertLevel(int* playerX, int* playerY)
 				break;
 			case 'c':
 				m_pLevelData[index] = ' ';
-				m_pActors.push_back(new Chest(x, y, new Money(x, y + 1, 1 + rand() % 10)));
+				m_pActors.push_back(new Chest(x, y, new Money(x, y + 1, 5 + rand() % 10)));
 				break;
 			case '@':
 				m_pLevelData[index] = ' ';
