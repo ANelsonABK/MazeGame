@@ -113,6 +113,10 @@ public:
 		if (!m_SoundOn)
 			return;
 
-		// TODO: add beeps for opening chest
+		Beep(1000, 200);
+		Beep(1500, 200);
+		Beep(1850, 300);
+		Beep(1500, 200);
+		Beep(1280, 200);
 	}
 };
