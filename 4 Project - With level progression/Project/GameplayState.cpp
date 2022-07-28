@@ -248,11 +248,10 @@ void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 				AudioManager::GetInstance()->PlayMoneySound();
 				int chestMoney = collidedChest->GetMoney().GetWorth();
 				m_player.AddMoney(chestMoney);
-				//m_player.AddMoney(collidedChest->GetMoney().GetWorth());
 				collidedChest->GetMoney().Remove();
 			}
 			collidedChest->SetChestState();
-			m_player.SetPosition(newPlayerX, newPlayerY);
+			m_player.SetPosition(newPlayerX-1, newPlayerY);
 			break;
 		}
 		default:
