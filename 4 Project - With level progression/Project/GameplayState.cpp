@@ -146,11 +146,21 @@ bool GameplayState::Update(bool processInput)
 
 void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 {
+
 	PlacableActor* collidedActor = m_pLevel->UpdateActors(newPlayerX, newPlayerY);
 	if (collidedActor != nullptr && collidedActor->IsActive())
 	{
 		switch (collidedActor->GetType())
 		{
+			/*
+			Some enemies don't seem to trigger the collision function so this breakpoint was
+			placed here to see what happens when a collsion is triggered for an enemy.
+
+			It was useful because when the breakpoint was triggered, the call stack
+			showed what happens when the program detected a collision had happened. However,
+			a different breakpoint is needed to determine why the player just skips over the
+			enemy and it does not detect a collision.
+			*/
 		case ActorType::Enemy:
 		{
 			Enemy* collidedEnemy = dynamic_cast<Enemy*>(collidedActor);
@@ -229,14 +239,20 @@ void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 		{
 			Chest* collidedChest = dynamic_cast<Chest*>(collidedActor);
 			assert(collidedChest);
-			collidedChest->SetChestState();
-			m_player.SetPosition(newPlayerX, newPlayerY);
-
 			if (collidedChest->GetChestState() == ChestState::Closed)
 			{
-				collidedChest->Remove();
 				AudioManager::GetInstance()->PlayOpenChestSound();
 			}
+			else if (collidedChest->GetChestState() == ChestState::Open)
+			{
+				AudioManager::GetInstance()->PlayMoneySound();
+				int chestMoney = collidedChest->GetMoney().GetWorth();
+				m_player.AddMoney(chestMoney);
+				//m_player.AddMoney(collidedChest->GetMoney().GetWorth());
+				collidedChest->GetMoney().Remove();
+			}
+			collidedChest->SetChestState();
+			m_player.SetPosition(newPlayerX, newPlayerY);
 			break;
 		}
 		default:
