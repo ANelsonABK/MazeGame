@@ -251,7 +251,6 @@ void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 				collidedChest->GetMoney().Remove();
 			}
 			collidedChest->SetChestState();
-			m_player.SetPosition(newPlayerX-1, newPlayerY);
 			break;
 		}
 		default:
