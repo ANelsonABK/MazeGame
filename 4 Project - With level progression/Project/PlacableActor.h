@@ -1,5 +1,7 @@
 #pragma once
 #include "Point.h"
+#include <thread>
+#include <atomic>
 
 enum class ActorColor
 {
@@ -9,21 +11,23 @@ enum class ActorColor
 	Red = 12,
 	SolidGreen = 34,
 	SolidRed = 68,
-	SolidBlue = 153,
-	//Orange = 
+	SolidBlue = 153
 };
 
 enum class ActorType
 {
-	Chest,
 	Door,
 	Enemy,
 	Goal,
 	Key,
 	Money,
-	Player
+	Player,
+	Chest
 };
 
+static std::atomic<bool> inputFlag{ false };
+
+//ICollidable
 class PlacableActor
 {
 public:

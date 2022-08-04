@@ -1,4 +1,5 @@
 #pragma once
+
 #include "GameState.h"
 
 #include <set>
@@ -15,6 +16,6 @@ public:
 	~HighScoreState() = default;
 
 	virtual bool Update(bool processInput = true) override;
+	void ProcessInput() override;
 	virtual void Draw() override;
 };
-

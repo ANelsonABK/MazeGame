@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include <iostream>
 
+
 Enemy::Enemy(int x, int y, int deltaX, int deltaY)
 	: PlacableActor(x, y)
 	, m_currentMovementX(0)
@@ -32,19 +33,31 @@ void Enemy::Draw()
 
 void Enemy::Update()
 {
-	if (m_movementInX != 0)
+	using namespace std::literals::chrono_literals;
+	// Update enemy position until user makes an input
+	while (!inputFlag)
 	{
-		UpdateDirection(m_currentMovementX, m_directionX, m_movementInX);
-	}
-	if (m_movementInY != 0)
-	{
-		UpdateDirection(m_currentMovementY, m_directionY, m_movementInY);
-	}
+		if (m_movementInX != 0)
+		{
+			UpdateDirection(m_currentMovementX, 
+				m_directionX, m_movementInX);
+		}
+		if (m_movementInY != 0)
+		{
+			UpdateDirection(m_currentMovementY, 
+				m_directionY, m_movementInY);
+		}
 
-	this->SetPosition(m_pPosition->x + m_directionX, m_pPosition->y + m_directionY);
+		this->SetPosition(m_pPosition->x + m_directionX, 
+			m_pPosition->y + m_directionY);
+
+		// Have thread wait before drawing again
+		std::this_thread::sleep_for(1s);
+	}
 }
 
-void Enemy::UpdateDirection(int& current, int& direction, int& movement)
+void Enemy::UpdateDirection(int& current, int& direction, 
+	int& movement)
 {
 	current += direction;
 	if (std::abs(current) > movement)

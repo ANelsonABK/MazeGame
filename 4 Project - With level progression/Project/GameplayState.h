@@ -1,22 +1,22 @@
 #pragma once
 #include "GameState.h"
 #include "Player.h"
-#include "Level.h"
 
 #include <windows.h>
 #include <vector>
 #include <string>
 
+class Level;
 class StateMachineExampleGame;
 
 class GameplayState : public GameState
 {
 	StateMachineExampleGame* m_pOwner;
-	
+
 	Player m_player;
 	Level* m_pLevel;
 
-	bool m_beatLevel;
+	bool m_didBeatLevel;
 	int m_skipFrameCount;
 	static constexpr int kFramesToSkip = 2;
 
@@ -32,9 +32,12 @@ public:
 	virtual bool Update(bool processInput = true) override;
 	virtual void Draw() override;
 
+protected:
+	void ProcessInput() override;
+	void CheckBeatLevel();
+
 private:
 	void HandleCollision(int newPlayerX, int newPlayerY);
 	bool Load();
 	void DrawHUD(const HANDLE& console);
-	void ClearScreen();
 };

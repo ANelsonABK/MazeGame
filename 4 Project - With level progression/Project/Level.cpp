@@ -9,7 +9,6 @@
 #include "Door.h"
 #include "Goal.h"
 #include "Money.h"
-#include "Chest.h"
 
 using namespace std;
 
@@ -62,7 +61,7 @@ bool Level::Load(std::string levelName, int* playerX, int* playerY)
 		// Read level
 		m_pLevelData = new char[m_width * m_height];
 		levelFile.read(m_pLevelData, (long long)m_width * (long long)m_height);
-		
+
 		// Convert level
 		bool anyWarnings = ConvertLevel(playerX, playerY);
 		if (anyWarnings)
@@ -160,10 +159,6 @@ bool Level::ConvertLevel(int* playerX, int* playerY)
 				m_pLevelData[index] = ' ';
 				m_pActors.push_back(new Money(x, y, 1 + rand() % 5));
 				break;
-			case 'c':
-				m_pLevelData[index] = ' ';
-				m_pActors.push_back(new Chest(x, y, new Money(x, y + 1, 5 + rand() % 10)));
-				break;
 			case '@':
 				m_pLevelData[index] = ' ';
 				if (playerX != nullptr && playerY != nullptr)
@@ -184,6 +179,7 @@ bool Level::ConvertLevel(int* playerX, int* playerY)
 				m_pLevelData[index] = ' ';
 				m_pActors.push_back(new Enemy(x, y, 0, 2));
 				m_pLevelData[index] = ' '; // clear the level
+				break;
 				break;
 			case ' ':
 				break;
@@ -211,6 +207,11 @@ PlacableActor* Level::UpdateActors(int x, int y)
 	for (auto actor = m_pActors.begin(); actor != m_pActors.end(); ++actor)
 	{
 		(*actor)->Update(); // Update all actors
+
+		if (!(*actor)->IsActive())
+		{
+			continue;
+		}
 
 		if (x == (*actor)->GetXPosition() && y == (*actor)->GetYPosition())
 		{

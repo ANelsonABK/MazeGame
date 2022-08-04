@@ -8,6 +8,7 @@ class Player : public PlacableActor
 public:
 	Player();
 
+	//inventory interface or composition
 	bool HasKey();
 	bool HasKey(ActorColor color);
 	void PickupKey(Key* key);
@@ -18,6 +19,8 @@ public:
 	void AddMoney(int money) { m_money += money; }
 	int GetMoney() { return m_money; }
 
+	//ILiveable
+	//create a function OnLoseLive or ColllideWithEnemy
 	int GetLives() { return m_lives; }
 	void DecrementLives() { m_lives--; }
 
